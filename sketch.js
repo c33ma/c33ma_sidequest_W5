@@ -58,6 +58,8 @@ function setup() {
 }
 
 function draw() {
+  background(255, 0, 0);
+  text("DRAW IS RUNNING", 20, 30);
   // --- INPUT ---
   player.updateInput();
 
