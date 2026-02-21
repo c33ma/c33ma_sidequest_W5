@@ -1,18 +1,17 @@
 {
   "schemaVersion": 1,
-  "world": {
-    "w": 2400,
-    "h": 1600,
-    "bg": [235, 235, 235],
-    "gridStep": 160
-  },
-  "camera": {
-    "lerp": 0.12
-  },
-  "playerStart": {
-    "x": 300,
-    "y": 300,
-    "speed": 3
-  },
-  "obstacles": [{ "x": 40, "y": 40, "w": 80, "h": 80, "r": 10 }]
+  "world": { "w": 2400, "h": 1600, "bg": [10, 12, 22], "gridStep": 160 },
+  "camera": { "lerp": 0.12 },
+  "playerStart": { "x": 300, "y": 300, "speed": 3 },
+  "obstacles": [],
+  "items": [
+    { "x": 520, "y": 380, "type": "astronaut", "msg": "A tiny astronaut floats by… hi 🧑‍🚀" },
+    { "x": 1200, "y": 900, "type": "alien", "msg": "Alien: “You’re drifting too fast. Try pausing.” 👽" },
+    { "x": 1900, "y": 520, "type": "artifact", "msg": "Artifact: a warm pulse… like a heartbeat 💎" }
+  ],
+  "planets": [
+    { "x": 700, "y": 520, "r": 90, "col": [215, 190, 140] },
+    { "x": 1500, "y": 300, "r": 70, "col": [120, 210, 160] },
+    { "x": 1800, "y": 900, "r": 110, "col": [170, 120, 210] }
+  ]
 }
