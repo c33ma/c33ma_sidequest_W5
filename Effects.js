@@ -146,15 +146,21 @@ class Effects {
     const dim = lerp(1, 0.55, this.starDim);
 
     for (const s of stars) {
-      const sx = s.x - camX * parallax;
-      const sy = s.y - camY * parallax;
+  // World -> screen parallax
+  const sx = s.x - camX * parallax;
+  const sy = s.y - camY * parallax;
 
-      const tw = 1 + sin(frameCount * 0.03 + s.p) * twinkleAmt;
-      const alpha = s.b * dim * tw;
+  // Wrap so stars always appear on the 800x480 canvas
+  const x = ((sx % width) + width) % width;
+  const y = ((sy % height) + height) % height;
 
-      fill(255, alpha);
-      circle(sx, sy, s.r);
-    }
+  // Twinkle + dim when moving
+  const tw = 1 + sin(frameCount * 0.03 + s.p) * twinkleAmt;
+  const alpha = s.b * dim * tw;
+
+  fill(255, alpha);
+  circle(x, y, s.r);
+}
 
     pop();
   }
@@ -257,14 +263,17 @@ class Effects {
 
     for (const b of this.nebula) {
       const sx = b.x - camX * 0.08;
-      const sy = b.y - camY * 0.08;
+    const sy = b.y - camY * 0.08;
+
+    const x = ((sx % width) + width) % width;
+    const y = ((sy % height) + height) % height;
 
       const wob = sin(frameCount * 0.01 + b.phase) * 0.08;
 
       for (let k = 0; k < 6; k++) {
         const rr = b.r * (1 - k * 0.12) * (1 + wob);
         fill(40, 80, 140, 12);
-        circle(sx + k * 6, sy - k * 4, rr);
+        circle(x + k * 6, y - k * 4, rr);
       }
     }
 
