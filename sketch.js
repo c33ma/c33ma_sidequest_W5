@@ -1,17 +1,18 @@
 /*
-Space Drifter — Side Quest 5
-Builds on Week 5 Example 4 (JSON World + Smooth Camera)
+Week 5 — Example 4: Data-driven world with JSON + Smooth Camera
 
-Features:
-- Parallax star layers
-- Shooting stars (increase when still)
-- Comets
-- Nebula
-- Vignette + fog overlay
-- Landable planets
-- Satellite + astronaut discoveries
-- Black hole slowdown + warp
-- Constellation message
+Course: GBDA302 | Instructors: Dr. Karen Cochrane & David Han
+Date: Feb. 12, 2026
+
+Move: WASD/Arrows
+
+Learning goals:
+- Extend the JSON-driven world to include camera parameters
+- Implement smooth camera follow using interpolation (lerp)
+- Separate camera behavior from player/world logic
+- Tune motion and feel using external data instead of hard-coded values
+- Maintain player visibility with soft camera clamping
+- Explore how small math changes affect “game feel”
 */
 
 const VIEW_W = 800;
@@ -24,16 +25,8 @@ let player;
 let camX = 0;
 let camY = 0;
 
-let ui;
-let effects;
-let entities;
-
-// For stillness detection
-let prevPX = 0;
-let prevPY = 0;
-
 function preload() {
-  worldData = loadJSON("world.json");
+  worldData = loadJSON("world.json"); // load JSON before setup [web:122]
 }
 
 function setup() {
@@ -48,95 +41,44 @@ function setup() {
 
   camX = player.x - width / 2;
   camY = player.y - height / 2;
-
-  ui = new UI();
-  effects = new Effects(level, ui);
-  entities = new Entities(level, ui, worldData);
-
-  prevPX = player.x;
-  prevPY = player.y;
 }
 
 function draw() {
-  background(255, 0, 0);
-  text("DRAW IS RUNNING", 20, 30);
-  // --- INPUT ---
   player.updateInput();
 
-  // --- Movement delta (for stillness + warp logic) ---
-  const dx = player.x - prevPX;
-  const dy = player.y - prevPY;
-  const moveMag = sqrt(dx * dx + dy * dy);
-
-  prevPX = player.x;
-  prevPY = player.y;
-
-  // --- Apply speed effects (black hole + landing zones) ---
-  entities.applySpeedEffects(player, moveMag);
-
-  // --- Constrain player to world ---
+  // Keep player inside world
   player.x = constrain(player.x, 0, level.w);
   player.y = constrain(player.y, 0, level.h);
 
-  // --- Camera targeting ---
+  // Target camera (center on player)
   let targetX = player.x - width / 2;
   let targetY = player.y - height / 2;
 
+  // Clamp target camera safely
   const maxCamX = max(0, level.w - width);
   const maxCamY = max(0, level.h - height);
-
   targetX = constrain(targetX, 0, maxCamX);
   targetY = constrain(targetY, 0, maxCamY);
 
-  camX = lerp(camX, targetX, level.camLerp);
-  camY = lerp(camY, targetY, level.camLerp);
+  // Smooth follow using the JSON knob
+  const camLerp = level.camLerp; // ← data-driven now
+  camX = lerp(camX, targetX, camLerp);
+  camY = lerp(camY, targetY, camLerp);
 
-  // ================================
-  // SPACE BACKGROUND (parallax, nebula, stars)
-  // ================================
-  effects.update(player, moveMag, camX, camY);
-  effects.drawFar(camX, camY);
-
-  // World background (does NOT clear screen)
   level.drawBackground();
 
-  // ================================
-  // WORLD SPACE
-  // ================================
   push();
   translate(-camX, -camY);
-
-  entities.update(player, moveMag);
-  entities.draw();
-
   level.drawWorld();
   player.draw();
-
   pop();
 
-  // ================================
-  // UI + OVERLAYS
-  // ================================
   level.drawHUD(player, camX, camY);
-
-  ui.update();
-  ui.draw();
-
-  effects.drawOverlay(entities.getWarpStrength(player));
 }
 
 function keyPressed() {
   if (key === "r" || key === "R") {
     const start = worldData.playerStart ?? { x: 300, y: 300, speed: 3 };
     player = new Player(start.x, start.y, start.speed);
-    prevPX = player.x;
-    prevPY = player.y;
-
-    entities.reset();
-    ui.clear();
-  }
-
-  if (key === "e" || key === "E") {
-    entities.interact(player);
   }
 }
