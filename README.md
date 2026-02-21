@@ -1,21 +1,21 @@
 ## Project Title
-Side Quest Week 4: Puzzle Maze
+Side Quest Week 5: Space Drift
 
 ---
 ## Description
-This project is a tile-based maze game where the player navigates through multiple levels to collect all points and advance. The player moves through a grid filled with walls, one-way paths, gates, switches, and fail tiles that reset the level. The design was inspired by classic maze games like Pac-Man, but reimagined as a puzzle experience that focuses on spatial logic and decision-making rather than enemies or chasing mechanics.
+This project is a reflective exploration experience set in a large open space environment. The player controls a small spaceship drifting through a world much larger than the screen, with a smooth camera that follows gently behind. The environment includes parallax stars, distant planets, and subtle nebula haze to create depth and atmosphere.
+
+The focus of the project is on pacing and motion. Movement feels calm and intentional, while stillness creates a quiet floating sensation. Small discoverable objects such as an astronaut, an alien, and space artifacts are scattered throughout the world. When the player gets close to them, a short message appears, encouraging curiosity and exploration rather than challenge or urgency.
 
 ---
 ## Interaction Instructions
-- Press Enter to start the game.
+- Use WASD or arrow keys to move the spaceship.
 
-- Use WASD or arrow keys to move the player.
+- Explore the open world by drifting through space.
 
-- Collect all points in a level to advance to the next one.
+- Get close to hidden objects to discover small messages.
 
-- Purple tiles toggle gates, blue arrows enforce one-way movement, and grey tiles restart the current level.
-
-- After completing all levels, press R to restart from Level 1.
+- Press R to reset the player’s position.
 
 ---
 
