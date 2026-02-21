@@ -39,10 +39,6 @@ class Player {
 
     noStroke();
 
-    fill(120, 200, 255, 40);
-    noStroke();
-    circle(0, 0, 50);
-
     // Ship body
     fill(220);
     beginShape();
