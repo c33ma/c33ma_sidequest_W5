@@ -2,6 +2,8 @@ class Player {
   constructor(x, y, speed) {
     this.x = x;
     this.y = y;
+
+    // movement speed
     this.s = speed ?? 3;
   }
 
@@ -14,7 +16,9 @@ class Player {
       (keyIsDown(DOWN_ARROW) || keyIsDown(83)) -
       (keyIsDown(UP_ARROW) || keyIsDown(87));
 
-    const len = max(1, abs(dx) + abs(dy));
+    // Smooth diagonal movement (more "space drift" feel)
+    const len = sqrt(dx * dx + dy * dy) || 1;
+
     this.x += (dx / len) * this.s;
     this.y += (dy / len) * this.s;
   }
